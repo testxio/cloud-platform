@@ -1,0 +1,35 @@
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.page {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.test-execution {
+  background-color: lightgrey;
+  padding: 10px;
+  border: 1px solid grey;
+  border-radious: 3px;
+  margin: 10px;
+}
+
+#runTestsButton {
+  margin-bottom: 10px;
+}
+
+.status-icon {
+  font-size: 25px !important;
+  display: block !important;
+  margin-top: 5px;
+}
+
+.status-icon.passed {
+  color: green;
+}
+.status-icon.failed {
+  color: red;
+}
