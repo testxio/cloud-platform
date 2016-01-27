@@ -22,3 +22,6 @@ coffeescript
 react
 jhartma:cjsx
 ongoworks:dockerode
+kadira:react-layout
+kadira:flow-router
+markoshust:material-ui
