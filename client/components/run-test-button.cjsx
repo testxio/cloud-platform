@@ -1,4 +1,4 @@
-{ FlatButton, RaisedButton, Popover, PopoverAnimationFromTop, TextField } = mui
+{ FlatButton, RaisedButton, Popover, PopoverAnimationFromTop, TextField, ClearFix } = mui
 
 styles =
   popover:
@@ -12,7 +12,10 @@ styles =
   runTests: ->
     @setState
       open: false
-    Meteor.call 'runTests', @refs.repoUrl.getValue(), (err, value) ->
+    repoUrl = @refs.repoUrl.getValue()
+    configFile = @refs.configFile.getValue() or 'conf.coffee'
+    params = @refs.params.getValue()
+    Meteor.call 'runTests', repoUrl, configFile, params, (err, value) ->
       console.log 'testsDone', err, value
 
   getInitialState: ->
@@ -41,14 +44,31 @@ styles =
         onRequestClose={@handleRequestClose}
         animation={PopoverAnimationFromTop}>
         <div style={styles.popover}>
-          <TextField
-            ref="repoUrl"
-            style={styles.repoField}
-            floatingLabelText="Git repo URL" />
-          <RaisedButton
-            onTouchTap={@runTests}
-            primary={true}
-            label="Run"/>
+          <ClearFix>
+            <TextField
+              ref="repoUrl"
+              style={styles.repoField}
+              floatingLabelText="Git repo URL" />
+          </ClearFix>
+          <ClearFix>
+            <TextField
+              ref="configFile"
+              style={styles.repoField}
+              hintText='conf.coffee'
+              floatingLabelText="Configuration file" />
+          </ClearFix>
+          <ClearFix>
+            <TextField
+              ref="params"
+              style={styles.repoField}
+              floatingLabelText="Run parameters" />
+          </ClearFix>
+          <ClearFix>
+            <RaisedButton
+              onTouchTap={@runTests}
+              primary={true}
+              label="Run"/>
+          </ClearFix>
         </div>
       </Popover>
     </div>
