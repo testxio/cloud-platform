@@ -4,6 +4,9 @@
 @ExecutionsList = React.createClass
   displayName: 'ExecutionsList'
 
+  showLogs: (logs) -> ->
+    console.log logs
+
   tableRows: ->
     @props.executions.map (exec) =>
       <TableRow key={exec._id}>
@@ -12,18 +15,23 @@
         <TableRowColumn>
           <ResultIcon status={exec.status} passed={exec.passed}/>
         </TableRowColumn>
+        <TableRowColumn><a href="" onClick={@showLogs(exec.log)}>Show logs</a></TableRowColumn>
       </TableRow>
 
   render: ->
-    <Table heigh={300}>
+    <Table heigh={300} >
       <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
         <TableRow>
           <TableHeaderColumn>Repo URL</TableHeaderColumn>
           <TableHeaderColumn>Created</TableHeaderColumn>
           <TableHeaderColumn>Result</TableHeaderColumn>
+          <TableHeaderColumn>Logs</TableHeaderColumn>
         </TableRow>
       </TableHeader>
-      <TableBody showRowHover={true} displayRowCheckbox={false} selectable={false}>
+      <TableBody
+        showRowHover={true}
+        displayRowCheckbox={false}
+        selectable={false}>
         {@tableRows()}
       </TableBody>
     </Table>

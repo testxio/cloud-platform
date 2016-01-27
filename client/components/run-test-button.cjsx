@@ -1,6 +1,8 @@
 { FlatButton, RaisedButton, Popover, PopoverAnimationFromTop, TextField, ClearFix } = mui
 
 styles =
+  button:
+    marginTop: 5
   popover:
     padding: 20
   repoField:
@@ -33,6 +35,7 @@ styles =
   render: ->
     <div {... @props}>
       <RaisedButton {... @props}
+        style={styles.button}
         onTouchTap={@handleTouchTap}
         primary={true}
         label="Run test"/>

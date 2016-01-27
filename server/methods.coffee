@@ -1,9 +1,11 @@
+concat = Meteor.npmRequire 'concat-stream'
+
 Meteor.methods
 
   runTests: (repoUrl, configFile, params = '') ->
     console.log 'runTests', repoUrl
 
-    # repoUrl = repoUrl or 'https://github.com/testxio/testx-quickstart.git'
+    repoUrl = repoUrl or 'https://github.com/testxio/testx-quickstart.git'
     # docker run -e REPO=https://github.com/testxio/testx-quickstart.git --volume $PWD/tmpwork:/work testx/cloud-runner
     docker = new Docker()
     createOpts =
@@ -19,7 +21,9 @@ Meteor.methods
     docker.pull runner, Meteor.bindEnvironment (err, stream) ->
       if err then console.error err
       else
-        docker.run runner, [], process.stdout, createOpts, Meteor.bindEnvironment (err, data, container) ->
+        logger = concat Meteor.bindEnvironment (body) ->
+          TestExecutions.update id, $set: {log: body}
+        docker.run runner, [], logger, createOpts, Meteor.bindEnvironment (err, data, container) ->
           console.log 'done', err, data, container
           passed = data.StatusCode is 0
           TestExecutions.update id, $set: {status: 'done', passed: passed}
