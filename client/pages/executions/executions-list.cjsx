@@ -4,8 +4,8 @@
 @ExecutionsList = React.createClass
   displayName: 'ExecutionsList'
 
-  showLogs: (logs) -> ->
-    console.log logs
+  showLogs: (logs) -> =>
+    @props.onShowLogs logs
 
   tableRows: ->
     @props.executions.map (exec) =>
