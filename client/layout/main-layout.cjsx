@@ -10,6 +10,9 @@
   getMeteorData: ->
     currentUser: Meteor.user()
 
+  handleLogin: ->
+    console.log "user logged in"
+
   render: ->
     if @data.currentUser
       <div>
@@ -29,7 +32,7 @@
 
       </div>
     else
-      <LoginDialog open={true} />
+      <Accounts.ui.LoginFormSet redirect={@handleLogin} />
 
 RightIcon = React.createClass
   render: ->
