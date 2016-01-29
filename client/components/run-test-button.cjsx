@@ -2,7 +2,7 @@
 
 styles =
   button:
-    marginTop: 5
+    marginTop: 10
   popover:
     padding: 20
   repoField:
