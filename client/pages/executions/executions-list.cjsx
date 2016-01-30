@@ -1,4 +1,4 @@
-{ Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, FontIcon } = mui
+{ List, ListItem, FontIcon } = mui
 { Styles: { Colors } } = mui
 
 @ExecutionsList = React.createClass
@@ -7,35 +7,19 @@
   showLogs: (logs) -> =>
     @props.onShowLogs logs
 
-  tableRows: ->
+  executionItems: ->
     @props.executions.map (exec) =>
-      <TableRow key={exec._id}>
-        <TableRowColumn>{exec.repoUrl}</TableRowColumn>
-        <TableRowColumn>{new Date(exec.created).toString()}</TableRowColumn>
-        <TableRowColumn>
-          <ResultIcon status={exec.status} passed={exec.passed}/>
-        </TableRowColumn>
-        <TableRowColumn><a href="" onClick={@showLogs(exec.log)}>Show logs</a></TableRowColumn>
-      </TableRow>
+      <ListItem key={exec._id}
+        leftIcon={<ResultIcon status={exec.status} passed={exec.passed}/>}
+        primaryText={exec.repoUrl}
+        secondaryText={moment(exec.created).fromNow()}
+        onTouchTap={@showLogs exec.log}>
+      </ListItem>
 
   render: ->
-    <Table heigh={300} >
-      <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-        <TableRow>
-          <TableHeaderColumn>Repo URL</TableHeaderColumn>
-          <TableHeaderColumn>Created</TableHeaderColumn>
-          <TableHeaderColumn>Result</TableHeaderColumn>
-          <TableHeaderColumn>Logs</TableHeaderColumn>
-        </TableRow>
-      </TableHeader>
-      <TableBody
-        showRowHover={true}
-        displayRowCheckbox={false}
-        selectable={false}>
-        {@tableRows()}
-      </TableBody>
-    </Table>
-
+    <List className='executionsList'>
+     {@executionItems()}
+    </List>
 
 @ResultIcon = React.createClass
   displayName: 'ResultIcon'
@@ -43,8 +27,8 @@
   render: ->
     if @props.status is 'done'
       if @props.passed
-        <i style={color:Colors.green500} className="fa fa-check status-icon passed"></i>
+        <FontIcon {... @props} color={Colors.green500} className='fa fa-check status-icon passed' />
       else
-        <i style={color:Colors.red500} className="fa fa-times status-icon failed"></i>
+        <FontIcon {... @props} color={Colors.red500} className='fa fa-times status-icon failed' />
     else
-      <i style={color:Colors.blue500} className="status-icon fa fa-circle-o-notch fa-spin"></i>
+      <FontIcon {... @props} color={Colors.blue500} className='status-icon fa fa-circle-o-notch fa-spin' />
