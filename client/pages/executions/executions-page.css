@@ -1,4 +1,17 @@
+.bla {
+  flex-direction: column;;
+}
 .container {
   display: flex;
   flex-direction: row;
+}
+
+.innerPage {
+  width: 100%;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.innerPage h4 {
+  color: rgba(0, 0, 0, .40);
 }

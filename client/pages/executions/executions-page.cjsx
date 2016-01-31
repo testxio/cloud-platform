@@ -1,4 +1,4 @@
-{ Dialog, FlatButton, LeftNav} = mui
+{ Dialog, FlatButton, LeftNav, Divider} = mui
 
 @ExecutionsPage = React.createClass
   displayName: 'ExecutionsPage'
@@ -13,6 +13,11 @@
     <div className='container'>
       <MeteorExecutionsList onSelect={@handleExecutionSelect} />
       {if @state.execution isnt null
-        <Log content={@state.execution.log}/>
+        <div className='innerPage'>
+          <h2>{@state.execution.repoUrl}</h2>
+          <h4>{moment(@state.execution.created).format('LLL')} ({moment(@state.execution.created).fromNow()})</h4>
+          <Divider />
+          <Log content={@state.execution.log}/>
+        </div>
       }
     </div>
