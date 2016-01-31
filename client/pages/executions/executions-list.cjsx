@@ -4,8 +4,8 @@
 @ExecutionsList = React.createClass
   displayName: 'ExecutionsList'
 
-  showLogs: (logs) -> =>
-    @props.onShowLogs logs
+  handleItemTouchTap: (exec) -> =>
+    @props.onSelect exec
 
   executionItems: ->
     @props.executions.map (exec) =>
@@ -13,7 +13,7 @@
         leftIcon={<ResultIcon status={exec.status} passed={exec.passed}/>}
         primaryText={exec.repoUrl}
         secondaryText={moment(exec.created).fromNow()}
-        onTouchTap={@showLogs exec.log}>
+        onTouchTap={@handleItemTouchTap exec}>
       </ListItem>
 
   render: ->
