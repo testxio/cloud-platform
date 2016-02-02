@@ -3,6 +3,11 @@
 @ExecutionsPage = React.createClass
   displayName: 'ExecutionsPage'
 
+  mixins: [ReactMeteorData]
+
+  getMeteorData: ->
+    log: TestExecutions.findOne(_id: @state.execution?._id)?.log
+
   getInitialState: ->
     execution: null
 
@@ -17,7 +22,7 @@
           <h2>{@state.execution.repoUrl}</h2>
           <h4>{moment(@state.execution.created).format('LLL')} ({moment(@state.execution.created).fromNow()})</h4>
           <Divider />
-          <Log content={@state.execution.log}/>
+          <Log content={@data.log}/>
         </div>
       }
     </div>

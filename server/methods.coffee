@@ -1,5 +1,3 @@
-concat = Meteor.npmRequire 'concat-stream'
-
 Meteor.methods
 
   runTests: (repoUrl, configFile, params = '') ->
@@ -16,13 +14,18 @@ Meteor.methods
       repoUrl: repoUrl
       createOpts: createOpts
       status: 'executing'
+      log: ''
 
     runner = 'testx/cloud-runner'
     docker.pull runner, Meteor.bindEnvironment (err, stream) ->
       if err then console.error err
       else
-        logger = concat Meteor.bindEnvironment (body) ->
-          TestExecutions.update id, $set: {log: body}
+        logger = Npm.require('stream').Writable(decodeStrings: false)
+        log = ''
+        logger._write = Meteor.bindEnvironment (chunk, enc, next) ->
+          log += chunk
+          TestExecutions.update id, $set: {log: log}
+          next()
         docker.run runner, [], logger, createOpts, Meteor.bindEnvironment (err, data, container) ->
           console.log 'done', err, data, container
           passed = data.StatusCode is 0
