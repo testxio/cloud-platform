@@ -1,5 +1,5 @@
 .log {
-  height: 500px;
+  height: calc(100vh - 300px);
   padding: 10px;
   color: white;
   background-color: black;
